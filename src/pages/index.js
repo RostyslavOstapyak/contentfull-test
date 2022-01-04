@@ -1,22 +1,31 @@
 import { Link } from 'gatsby'
 import React from 'react'
 
+const RootIndex = ({ data }) => {
 
-class RootIndex extends React.Component {
-  render() {
+  if (!data.test) return null;
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}><div>some index page</div>
+      {data.test.edges.map(({ node }) => <Link key={node.id} to={`/KEK/${node.slug}`} >to {node.title}</Link>)
+      }
 
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}><div>some index page</div>
-        <Link to='/KEK/test-1'>to kek 1</Link>
-
-        <Link to='/KEK/test-2'>to kek 2</Link>
-
-        <Link to='/KEK/test-3'>to kek 3</Link>
-      </div >
-    )
-  }
+    </div >
+  )
 }
 
 export default RootIndex
 
 
+export const pageQuery = graphql`
+query{
+    test:  allContentfulTest {
+    edges {
+      node {
+        slug
+        title
+        id
+      }
+    }
+  }
+}
+`
